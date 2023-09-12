@@ -15,34 +15,33 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.cpg.flightapi.dto.FlightDto;
 import com.cpg.flightapi.entity.FlightDetails;
 import com.cpg.flightapi.exception.FlightNotFoundException;
 import com.cpg.flightapi.service.FlightService;
-
 import jakarta.validation.Valid;
-import lombok.AllArgsConstructor;
 
 @RestController
 @RequestMapping("/api")
-@AllArgsConstructor
 public class FlightController {
+	@Autowired
+	private FlightService flightService;
 
-	private final FlightService flightService;
+	@GetMapping("/flights/{id}")
+	public ResponseEntity<FlightDto> getFlightsById(@PathVariable Long id) {
+		try {
+			// Get a single flight by ID
+			FlightDto flight = flightService.getFlightById(id);
+			return new ResponseEntity<>(flight, HttpStatus.OK);
+
+		} catch (FlightNotFoundException ex) {
+			return ResponseEntity.notFound().build();
+		}
+	}
 
 	@GetMapping("/flights/sorted")
-	public ResponseEntity<List<FlightDto>> getallFlights(@RequestParam(required = false) String sortBy,
-			@RequestParam(required = false) Long id) {
-		if (id != null) {
-			// Get a single flight by ID
-			try {
-				FlightDto flight = flightService.getFlightById(id);
-				return ResponseEntity.ok(flight != null ? List.of(flight) : Collections.emptyList());
-			} catch (FlightNotFoundException ex) {
-				return ResponseEntity.notFound().build();
-			}
-		}
+	public ResponseEntity<List<FlightDto>> getallFlights(@RequestParam(required = false) String sortBy) {
+
 		if ("duration".equalsIgnoreCase(sortBy)) {
 			try {
 				List<FlightDto> flights = flightService.getFlightsSortedByDuration();

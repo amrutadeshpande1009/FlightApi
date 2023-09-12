@@ -1,23 +1,16 @@
 package com.cpg.flightapi.controllerTest;
 
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
 import com.cpg.flightapi.controller.FlightController;
 import com.cpg.flightapi.dto.FlightDto;
 import com.cpg.flightapi.service.FlightService;
-
-import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.*;
-import java.util.List;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -44,8 +37,8 @@ public class FlightControllerTest {
 		flightDetailsDtos.setDepartureTime(LocalTime.of(15, 10));
 		flightDetailsDtos.setPrice(200.0);
 
-
-		when(flightService.getFlightsByOriginAndDestination("Origin1", "Destination1")).thenReturn(Collections.singletonList(flightDetailsDtos));
+		when(flightService.getFlightsByOriginAndDestination("Origin1", "Destination1"))
+				.thenReturn(Collections.singletonList(flightDetailsDtos));
 
 		// Perform the GET request
 		mockMvc.perform(get("/api/find-list").param("origin", "Origin1").param("destination", "Destination1"))
@@ -67,7 +60,7 @@ public class FlightControllerTest {
 		flightDetailsDtos.setArrivalTime(LocalTime.of(10, 15));
 		flightDetailsDtos.setDepartureTime(LocalTime.of(15, 10));
 		flightDetailsDtos.setPrice(200.0);
-		
+
 		when(flightService.getFlightsSortedByPrice()).thenReturn(Collections.singletonList(flightDetailsDtos));
 		when(flightService.getFlightsSortedByDuration()).thenReturn(Collections.singletonList(flightDetailsDtos));
 		// Perform the GET request duration
