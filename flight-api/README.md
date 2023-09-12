@@ -43,7 +43,7 @@ Define DTO classes to transfer data between your API and the client. This helps 
 
 **Step 8: Set Up Database Configuration**
 
-Configure your database connection in the `application.properties` or `application.yml` file. You can use an in-memory database like H2 for testing or set up a production database like MySQL or PostgreSQL.
+Configure your database connection in the `application.properties` or `application.yml` file. You can use an in-memory database like H2 for testing or set up a production database like H2 or MySQL.
 
 **Step 9: Implement Exception Handling**
 
